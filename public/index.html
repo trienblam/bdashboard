@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-left">
+                <h1 class="title">
+                    <span class="bracket">[</span>
+                    LAM TRIEN BANG
+                    <span class="bracket">]</span>
+                </h1>
+                <!-- Tab Navigation -->
+                <nav class="tab-navigation">
+                    <button class="tab-btn active" data-tab="dashboard">DASHBOARD</button>
+                    <button class="tab-btn" data-tab="calendar">CALENDAR</button>
+                </nav>
+            </div>
+            <div class="status-bar">
+                <span class="status-indicator online"></span>
+                <span class="status-text">SYSTEM_ONLINE</span>
+            </div>
+        </header>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- Tab 1: Dashboard -->
+            <div class="tab-panel active" id="dashboard-tab">
+                <div class="dashboard-grid">
+                    <!-- Row 1: Main Clock, VN Time, Stock Indices -->
+                    <div class="dashboard-row-1">
+                        <!-- Houston Clock Widget -->
+                        <div class="widget main-clock">
+                            <div class="widget-header">
+                                <span class="widget-title">&gt; HOUSTON_TIME</span>
+                            </div>
+                            <div class="widget-content">
+                                <div class="time-display" id="mainTime">00:00:00</div>
+                                <div class="date-display" id="mainDate">LOADING...</div>
+                            </div>
+                        </div>
+
+                        <!-- Saigon Clock Widget -->
+                        <div class="widget vietnam-clock">
+                            <div class="widget-header">
+                                <span class="widget-title">&gt; SAIGON_TIME</span>
+                            </div>
+                            <div class="widget-content">
+                                <div class="time-display" id="vnTime">00:00</div>
+                                <div class="date-display" id="vnDate">LOADING...</div>
+                            </div>
+                        </div>
+
+                        <!-- Stock Widget -->
+                        <div class="widget stocks">
+                            <div class="widget-header">
+                                <span class="widget-title">&gt; STOCK_INDICES</span>
+                                <input type="text" class="stock-input" id="stockInput" placeholder="SYMBOL" maxlength="10">
+                            </div>
+                            <div class="widget-content">
+                                <div class="stock-list" id="stockList">
+                                    <div class="stock-item">
+                                        <span class="stock-symbol">AAPL</span>
+                                        <span class="stock-price">$---.--</span>
+                                        <span class="stock-change">---%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Weather, Gold, Bitcoin, Ethereum -->
+                    <div class="dashboard-row-2">
+                        <!-- Weather Widget -->
+                        <div class="widget weather">
+                            <div class="widget-header">
+                                <span class="widget-title">&gt; HOUSTON_WEATHER</span>
+                            </div>
+                            <div class="widget-content">
+                                <div class="weather-main">
+                                    <span class="temperature" id="temperature">--°F</span>
+                                    <span class="weather-desc" id="weatherDesc">LOADING...</span>
+                                </div>
+                                <div class="weather-details">
+                                    <div class="weather-item">
+                                        <span class="label">HUMIDITY:</span>
+                                        <span class="value" id="humidity">--%</span>
+                                    </div>
+                                    <div class="weather-item">
+                                        <span class="label">WIND:</span>
+                                        <span class="value" id="windSpeed">-- mph</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gold Widget -->
+                        <div class="widget gold">
+                            <div class="widget-header">
+                                <span class="widget-title">&gt; GOLD_PRICE</span>
+                            </div>
+                            <div class="widget-content">
+                                <div class="price-display">
+                                    <span class="price-value" id="goldPrice">$---.--</span>
+                                    <span class="price-unit">/oz</span>
+                                </div>
+                                <div class="price-change" id="goldChange">---%</div>
+                            </div>
+                        </div>
+
+                        <!-- Bitcoin Widget -->
+                        <div class="widget crypto btc">
+                            <div class="widget-header">
+                                <span class="widget-title">&gt; BITCOIN</span>
+                            </div>
+                            <div class="widget-content">
+                                <div class="crypto-price">
+                                    <span class="crypto-symbol">BTC</span>
+                                    <span class="crypto-value" id="btcPrice">$--,---</span>
+                                </div>
+                                <div class="crypto-change" id="btcChange">---%</div>
+                            </div>
+                        </div>
+
+                        <!-- Ethereum Widget -->
+                        <div class="widget crypto eth">
+                            <div class="widget-header">
+                                <span class="widget-title">&gt; ETHEREUM</span>
+                            </div>
+                            <div class="widget-content">
+                                <div class="crypto-price">
+                                    <span class="crypto-symbol">ETH</span>
+                                    <span class="crypto-value" id="ethPrice">$--,---</span>
+                                </div>
+                                <div class="crypto-change" id="ethChange">---%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Calendar -->
+            <div class="tab-panel" id="calendar-tab">
+                <div class="calendar-container">
+                    <!-- Solar Calendar Widget -->
+                    <div class="widget calendar solar-calendar">
+                        <div class="widget-header">
+                            <span class="widget-title">&gt; SOLAR CALENDAR</span>
+                            <span class="calendar-nav">
+                                <button class="nav-btn" id="prevMonth">&lt;</button>
+                                <span class="current-month" id="currentMonth">LOADING...</span>
+                                <button class="nav-btn" id="nextMonth">&gt;</button>
+                            </span>
+                        </div>
+                        <div class="widget-content">
+                            <div class="calendar-grid" id="calendarGrid">
+                                <!-- Calendar will be generated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lunar Calendar Widget -->
+                    <div class="widget calendar lunar-calendar">
+                        <div class="widget-header">
+                            <span class="widget-title">&gt; LUNAR CALENDAR</span>
+                            <span class="calendar-nav">
+                                <button class="nav-btn" id="prevLunarMonth">&lt;</button>
+                                <span class="current-month" id="currentLunarMonth">LOADING...</span>
+                                <button class="nav-btn" id="nextLunarMonth">&gt;</button>
+                            </span>
+                        </div>
+                        <div class="widget-content">
+                            <div class="lunar-info">
+                                <div class="lunar-today">
+                                    <div class="lunar-date" id="lunarToday">Tháng X, Ngày XX</div>
+                                    <div class="lunar-year" id="lunarYear">Năm Giáp Thìn</div>
+                                    <!-- <div class="lunar-zodiac" id="lunarZodiac">Tuổi Rồng</div> -->
+                                </div>
+                                <div class="moon-phase">
+                                    <div class="moon-icon" id="moonPhase">🌕</div>
+                                    <div class="moon-name" id="moonPhaseName">Trăng Tròn</div>
+                                </div>
+                            </div>
+                            <div class="lunar-grid" id="lunarGrid">
+                                <!-- Lunar calendar will be generated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
