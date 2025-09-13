@@ -101,6 +101,9 @@ body {
     position: relative;
     overflow: hidden;
 }
+.widget.vietnam-clock {
+    background: #213b27;
+}
 
 .widget::before {
     content: '';
@@ -142,12 +145,16 @@ body {
 /* Widget Grid Positioning - No specific positioning needed with new structure */
 
 .time-display {
-    font-size: 3.5rem;
+    font-size: 5rem;
     font-weight: 600;
     color: #00ff41;
     text-align: center;
     line-height: 1;
     font-variant-numeric: tabular-nums;
+}
+
+.time-display#vnTime {
+    color: #feff00;
 }
 
 .time-display.small {
