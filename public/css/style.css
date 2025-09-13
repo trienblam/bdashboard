@@ -103,6 +103,15 @@ body {
 }
 .widget.vietnam-clock {
     background: #213b27;
+    height: 256px !important;
+    width: 470px !important;
+}
+.widget.main-clock {
+    height: 256px !important;
+    width: 470px !important;
+}
+.widget.stocks {
+    height: 256px !important;
 }
 
 .widget::before {
@@ -151,6 +160,8 @@ body {
     text-align: center;
     line-height: 1;
     font-variant-numeric: tabular-nums;
+    transform: scaleY(1.5);
+    padding: 25px 0;
 }
 
 .time-display#vnTime {
@@ -218,7 +229,6 @@ body {
 
 /* Stock Styles */
 .stocks {
-    max-height: 200px; /* Limit height to approximately 2 rows */
     overflow-y: auto;
 }
 
