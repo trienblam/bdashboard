@@ -417,6 +417,268 @@ body {
     }
 }
 
+/* Todo List Styles */
+.todo-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.todo-input {
+    background: rgba(0, 255, 65, 0.05);
+    border: 1px solid rgba(0, 255, 65, 0.3);
+}
+
+.todo-list {
+    background: rgba(0, 255, 65, 0.03);
+    border: 1px solid rgba(0, 255, 65, 0.2);
+    min-height: 400px;
+}
+
+.todo-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    color: #00ff41;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px 12px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(0, 255, 65, 0.3);
+    color: #00ff41;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #00ff41;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+}
+
+.form-group input::placeholder {
+    color: rgba(0, 255, 65, 0.5);
+}
+
+.add-btn {
+    padding: 12px 20px;
+    background: linear-gradient(45deg, rgba(0, 255, 65, 0.2), rgba(0, 255, 65, 0.1));
+    border: 1px solid #00ff41;
+    color: #00ff41;
+    font-family: 'Fira Code', monospace;
+    font-weight: 600;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    align-self: flex-start;
+}
+
+.add-btn:hover {
+    background: linear-gradient(45deg, rgba(0, 255, 65, 0.3), rgba(0, 255, 65, 0.2));
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
+    transform: translateY(-2px);
+}
+
+.todo-stats {
+    font-size: 0.8rem;
+    color: rgba(0, 255, 65, 0.7);
+    text-transform: uppercase;
+}
+
+.todo-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 255, 65, 0.2);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.todo-item:hover {
+    border-color: rgba(0, 255, 65, 0.4);
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.todo-item.completed {
+    opacity: 0.6;
+    background: rgba(0, 255, 65, 0.05);
+}
+
+.todo-item.completed .todo-content {
+    text-decoration: line-through;
+    color: rgba(0, 255, 65, 0.6);
+}
+
+.todo-checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #00ff41;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 3px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.todo-checkbox.checked {
+    background: #00ff41;
+}
+
+.todo-checkbox.checked::after {
+    content: '✓';
+    position: absolute;
+    top: -2px;
+    left: 2px;
+    color: #000;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.todo-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.todo-content {
+    color: #00ff41;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.todo-meta {
+    display: flex;
+    gap: 15px;
+    font-size: 0.8rem;
+    color: rgba(0, 255, 65, 0.7);
+}
+
+.todo-due-date {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.todo-priority {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    text-transform: uppercase;
+}
+
+.priority-high {
+    color: #ff4444;
+}
+
+.priority-medium {
+    color: #ffaa00;
+}
+
+.priority-low {
+    color: #00ff41;
+}
+
+.todo-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.delete-btn {
+    padding: 6px 10px;
+    background: rgba(255, 68, 68, 0.1);
+    border: 1px solid rgba(255, 68, 68, 0.3);
+    color: #ff4444;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.8rem;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+    background: rgba(255, 68, 68, 0.2);
+    border-color: #ff4444;
+    box-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: rgba(0, 255, 65, 0.5);
+    font-style: italic;
+}
+
+/* Todo Badge Styles */
+.todo-badge {
+    display: inline-block;
+    background: #ff4444;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    margin-left: 8px;
+    min-width: 16px;
+    text-align: center;
+    line-height: 1.2;
+    box-shadow: 0 0 8px rgba(255, 68, 68, 0.6);
+    animation: pulse 2s infinite;
+}
+
+.todo-badge.hidden {
+    display: none;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 8px rgba(255, 68, 68, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 15px rgba(255, 68, 68, 0.8);
+    }
+    100% {
+        box-shadow: 0 0 8px rgba(255, 68, 68, 0.6);
+    }
+}
+
 /* Tab Navigation Styles */
 .tab-navigation {
     display: flex;

@@ -4,6 +4,7 @@ class HackerDashboard {
         this.stockSymbols = ['AAPL', 'GOOGL', 'MSFT', 'TSLA'];
         this.currentDate = new Date();
         this.currentLunarDate = new Date();
+        this.todos = this.loadTodos();
         this.init();
     }
 
@@ -15,6 +16,8 @@ class HackerDashboard {
         this.fetchStockData();
         this.generateCalendar();
         this.generateLunarCalendar();
+        this.renderTodos();
+        this.updateTodoBadge();
         this.setupEventListeners();
         
         // Set up intervals for real-time updates
@@ -324,6 +327,15 @@ class HackerDashboard {
                 this.generateLunarCalendar();
             });
         }
+
+        // Todo form submission
+        const todoForm = document.getElementById('todoForm');
+        if (todoForm) {
+            todoForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.addTodo();
+            });
+        }
     }
 
     generateCalendar() {
@@ -626,12 +638,171 @@ class HackerDashboard {
             this.generateCalendar();
             this.generateLunarCalendar();
         }
+        
+        // Render todos when switching to todo tab
+        if (tabName === 'todo') {
+            this.renderTodos();
+        }
+    }
+
+    // Todo Management Functions
+    loadTodos() {
+        const stored = localStorage.getItem('bdashboard-todos');
+        return stored ? JSON.parse(stored) : [];
+    }
+
+    saveTodos() {
+        localStorage.setItem('bdashboard-todos', JSON.stringify(this.todos));
+    }
+
+    addTodo() {
+        const contentInput = document.getElementById('todoContent');
+        const dueDateInput = document.getElementById('todoDueDate');
+        const prioritySelect = document.getElementById('todoPriority');
+
+        const content = contentInput.value.trim();
+        if (!content) return;
+
+        const todo = {
+            id: Date.now().toString(),
+            content: content,
+            dueDate: dueDateInput.value || null,
+            priority: prioritySelect.value,
+            completed: false,
+            createdAt: new Date().toISOString()
+        };
+
+        this.todos.unshift(todo);
+        this.saveTodos();
+        this.renderTodos();
+        this.updateTodoBadge();
+
+        // Clear form
+        contentInput.value = '';
+        dueDateInput.value = '';
+        prioritySelect.value = 'medium';
+    }
+
+    toggleTodo(id) {
+        const todo = this.todos.find(t => t.id === id);
+        if (todo) {
+            todo.completed = !todo.completed;
+            this.saveTodos();
+            this.renderTodos();
+            this.updateTodoBadge();
+        }
+    }
+
+    deleteTodo(id) {
+        this.todos = this.todos.filter(t => t.id !== id);
+        this.saveTodos();
+        this.renderTodos();
+        this.updateTodoBadge();
+    }
+
+    formatDate(dateString) {
+        if (!dateString) return null;
+        const date = new Date(dateString);
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        if (date.toDateString() === today.toDateString()) {
+            return 'Hôm nay';
+        } else if (date.toDateString() === tomorrow.toDateString()) {
+            return 'Ngày mai';
+        } else {
+            return date.toLocaleDateString('vi-VN');
+        }
+    }
+
+    renderTodos() {
+        const todoItems = document.getElementById('todoItems');
+        const todoStats = document.getElementById('todoStats');
+        
+        if (!todoItems) return;
+
+        if (this.todos.length === 0) {
+            todoItems.innerHTML = '<div class="empty-state">There are no tasks!</div>';
+            if (todoStats) todoStats.textContent = '0 tasks';
+            return;
+        }
+
+        // Sort todos: incomplete first, then by priority, then by due date
+        const sortedTodos = [...this.todos].sort((a, b) => {
+            if (a.completed !== b.completed) {
+                return a.completed ? 1 : -1;
+            }
+            
+            const priorityOrder = { high: 3, medium: 2, low: 1 };
+            if (priorityOrder[a.priority] !== priorityOrder[b.priority]) {
+                return priorityOrder[b.priority] - priorityOrder[a.priority];
+            }
+            
+            if (a.dueDate && b.dueDate) {
+                return new Date(a.dueDate) - new Date(b.dueDate);
+            }
+            if (a.dueDate && !b.dueDate) return -1;
+            if (!a.dueDate && b.dueDate) return 1;
+            
+            return new Date(b.createdAt) - new Date(a.createdAt);
+        });
+
+        todoItems.innerHTML = sortedTodos.map(todo => {
+            const formattedDate = this.formatDate(todo.dueDate);
+            const priorityText = {
+                high: 'High',
+                medium: 'Normal', 
+                low: 'Low'
+            };
+
+            return `
+                <div class="todo-item ${todo.completed ? 'completed' : ''}">
+                    <div class="todo-checkbox ${todo.completed ? 'checked' : ''}" 
+                         onclick="dashboard.toggleTodo('${todo.id}')"></div>
+                    <div class="todo-main">
+                        <div class="todo-content">${todo.content}</div>
+                        <div class="todo-meta">
+                            ${formattedDate ? `<div class="todo-due-date">📅 ${formattedDate}</div>` : ''}
+                            <div class="todo-priority priority-${todo.priority}">
+                                ⚡ ${priorityText[todo.priority]}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="todo-actions">
+                        <button class="delete-btn" onclick="dashboard.deleteTodo('${todo.id}')">DELETE</button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        // Update stats
+        if (todoStats) {
+            const completed = this.todos.filter(t => t.completed).length;
+            const total = this.todos.length;
+            todoStats.textContent = `${completed}/${total} completed`;
+        }
+    }
+
+    updateTodoBadge() {
+        const todoBadge = document.getElementById('todoBadge');
+        if (!todoBadge) return;
+
+        const incompleteTasks = this.todos.filter(todo => !todo.completed).length;
+        
+        if (incompleteTasks === 0) {
+            todoBadge.classList.add('hidden');
+        } else {
+            todoBadge.classList.remove('hidden');
+            todoBadge.textContent = incompleteTasks;
+        }
     }
 }
 
 // Initialize dashboard when DOM is loaded
+let dashboard;
 document.addEventListener('DOMContentLoaded', () => {
-    new HackerDashboard();
+    dashboard = new HackerDashboard();
 });
 
 // Add some hacker-style console messages
